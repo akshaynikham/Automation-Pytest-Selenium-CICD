@@ -1,10 +1,9 @@
 import pytest
-from selenium import webdriver
+# from selenium import webdriver
+from pages.utils import get_driver
 
 @pytest.fixture()
 def initialize_driver():
-    driver = webdriver.Chrome()
-    driver.implicitly_wait(10)
-    driver.maximize_window()
+    driver = get_driver()
     yield driver
     driver.quit()
