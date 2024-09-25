@@ -13,5 +13,7 @@ class flipkartSearch:
         search_box.send_keys(ProductName)
         search_box.send_keys(Keys.RETURN)
         results = self.driver.find_elements(By.CLASS_NAME, "KzDlHZ")
+        select = results[2]
+        select.click()
         return [result.text for result in results]
 
