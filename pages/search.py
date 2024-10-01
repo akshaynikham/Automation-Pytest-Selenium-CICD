@@ -8,6 +8,8 @@ class flipkartSearch:
 
     def search_items(self, ProductName):
         self.driver.get("https://www.flipkart.com/")
+        main_window = self.driver.current_window_handle
+        print("current window handle", main_window)
         search_box = self.driver.find_element(By.XPATH, "//input[@placeholder='Search for Products, Brands and More']")
         search_box.click()
         search_box.send_keys(ProductName)
@@ -15,5 +17,9 @@ class flipkartSearch:
         results = self.driver.find_elements(By.CLASS_NAME, "KzDlHZ")
         select = results[2]
         select.click()
+        all_windows = self.driver.window_handles
+        self.driver.switch_to.window(all_windows[1])
+        # self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+        self.driver.save_screenshot("first_try.png")
         return [result.text for result in results]
 
