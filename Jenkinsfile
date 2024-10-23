@@ -1,8 +1,7 @@
 pipeline {
     agent {
         docker {
-            image 'python:3.9'  // Use Python Docker image
-            args '-v /dev/shm:/dev/shm' // Optional: Shared memory for Chrome
+            image 'python:3.9'  // Using Python Docker image
         }
     }
     stages {
@@ -12,10 +11,21 @@ pipeline {
                 git 'https://github.com/akshaynikham/Automation-Pytest-Selenium-CICD.git'
             }
         }
+         stage('Create Virtual Environment') {
+            steps {
+                // Creating virtual environment
+                sh '''
+                python -m venv venv
+                . venv/bin/activate
+                '''
+            }
         stage('Install Dependencies') {
             steps {
                 // Installing dependencies listed in requirements.txt
-                sh 'pip install -r requirements.txt'
+                sh ''' 
+                . venv/bin/activate
+                pip install -r requirements.txt 
+                '''
             }
         }
         stage('Run Automation Tests') {
@@ -28,6 +38,7 @@ pipeline {
 
                     // Run tests against the Selenium container
                     sh '''
+                    . venv/bin/activate
                     pytest --maxfail=5 --disable-warnings \
                     --driver "http://localhost:4444/wd/hub" \
                     --headless
