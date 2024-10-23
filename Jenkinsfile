@@ -33,7 +33,7 @@ pipeline {
             steps {
                 // Start Selenium Chrome standalone container
                 script {
-                    def seleniumContainer = docker.run('selenium/standalone-chrome', '-d -p 4444:4444')
+                   sh 'docker run -d -p 4444:4444 --name selenium-chrome selenium/standalone-chrome'
                     // Wait for Selenium to be ready
                     sleep 10 // Adjust as needed based on your environment
 
