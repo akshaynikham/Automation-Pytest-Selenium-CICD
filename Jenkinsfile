@@ -1,27 +1,32 @@
-pipeline{
+pipeline {
     agent {
         docker {
-            image 'python:3.9' // use the python docker image.
-            args '-v /dev/shm:/dev/shm'
+            image 'python:3.9'
         }
-    }
-    environment {
-        PYTHON_ENV = 'pytest.env'
     }
     stages {
-        stage('clone repository'){
-            steps{
-            git 'https://github.com/akshaynikham/Automation-Pytest-Selenium-CICD.git'
-            }
-        }
-        stage('Install dependencies'){
-             steps{
-            sh 'pip install -r requirements.txt'
-            }
-        }
-        stage('Run Tests'){
+        stage('Clone Repository') {
             steps {
-            sh 'pytest --maxfail=5 --disable-warnings'
+                git 'https://github.com/akshaynikham/Automation-Pytest-Selenium-CICD.git'
+            }
+        }
+        stage('Install Dependencies') {
+            steps {
+                sh 'pip install -r requirements.txt'
+            }
+        }
+        stage('Run Automation Tests') {
+            steps {
+                script {
+                    def seleniumContainer = docker.run('selenium/standalone-chrome', '-d -p 4444:4444')
+                    sleep 10
+                    sh '''
+                    pytest --maxfail=5 --disable-warnings \
+                    --driver "http://localhost:4444/wd/hub" \
+                    --headless
+                    '''
+                    seleniumContainer.stop()
+                }
             }
         }
     }
