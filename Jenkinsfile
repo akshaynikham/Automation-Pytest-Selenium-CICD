@@ -11,6 +11,15 @@ pipeline {
                 git 'https://github.com/akshaynikham/Automation-Pytest-Selenium-CICD.git'
             }
         }
+        stage('create virtual environment') {
+            steps {
+               // creating virtual environment
+                sh '''
+                python -m venv venv
+                . venv/bin/activate
+                '''
+            }
+        }
         stage('Install Dependencies') {
             steps {
                 // Installing dependencies listed in requirements.txt
