@@ -14,7 +14,7 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 // Installing dependencies listed in requirements.txt
-                sh 'pip install -r requirements.txt'
+                sh 'pip install --user -r requirements.txt'
             }
         }
         stage('Run Automation Tests') {
