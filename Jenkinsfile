@@ -1,39 +1,32 @@
 pipeline {
     agent {
         docker {
-            image 'python:3.9' 
-            args '-v /dev/shm:/dev/shm' 
+            image 'python:3.9'  // Use Python Docker image
         }
-    }
-    environment {
-        VIRTUAL_ENV = '.venv'
-        PATH = ".venv/bin:$PATH"
     }
     stages {
         stage('Clone Repository') {
             steps {
+                // Cloning the repository that contains the automation code
                 git 'https://github.com/akshaynikham/Automation-Pytest-Selenium-CICD.git'
-            }
-        }
-        stage('Set Up Virtual Environment') {
-            steps {
-                sh 'python -m venv $VIRTUAL_ENV' 
-                sh 'pip install -U pip'           
             }
         }
         stage('Install Dependencies') {
             steps {
+                // Installing dependencies listed in requirements.txt
                 sh 'pip install -r requirements.txt'
             }
         }
-        stage('Run Tests') {
+        stage('Run Automation Tests') {
             steps {
+                // Running the tests using pytest
                 sh 'pytest --maxfail=5 --disable-warnings'
             }
         }
     }
     post {
         always {
+            // Archiving test reports
             archiveArtifacts artifacts: '**/reports/*.html', allowEmptyArchive: true
             junit '**/reports/*.xml'
         }
