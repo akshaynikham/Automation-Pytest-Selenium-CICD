@@ -33,7 +33,7 @@ pipeline {
             steps {
                 // Start Selenium Chrome standalone container
                 script {
-                   sh 'docker run -d -p 4444:4444 --name selenium-chrome selenium/standalone-chrome'
+                   sh 'docker run -d -p 4444:4444 -p 7900:7900 --shm-size="2g" selenium/standalone-chrome:latest'
                     // Wait for Selenium to be ready
                     sleep 10 // Adjust as needed based on your environment
 
