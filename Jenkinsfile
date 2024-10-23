@@ -18,6 +18,7 @@ pipeline {
                 python -m venv venv
                 . venv/bin/activate
                 '''
+                }
             }
         stage('Install Dependencies') {
             steps {
