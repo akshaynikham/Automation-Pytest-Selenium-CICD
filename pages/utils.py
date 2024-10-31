@@ -3,7 +3,7 @@ from selenium.webdriver.chrome.options import Options
 import os
 
 def get_driver():
-    selenium_url = os.getenv("SELENIUM_URL", "http://localhost:4444")
+    selenium_url = os.getenv("SELENIUM_URL", "http://172.18.0.3:4444")
 
     chrome_options = Options()
     chrome_options.add_argument("--headless")
