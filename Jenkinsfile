@@ -7,7 +7,7 @@ pipeline {
 
     environment {
         // Define the Selenium Standalone server URL (adjust if needed)
-        SELENIUM_URL = "http://selenium-standalone:4444/wd/hub"
+        SELENIUM_URL = "http://localhost:4444/wd/hub"
     }
 
     stages {
