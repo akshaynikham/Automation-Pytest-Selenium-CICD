@@ -4,6 +4,12 @@ pipeline {
             image 'python:3.9'  // Using Python Docker image
         }
     }
+
+    environment {
+        // Define the Selenium Standalone server URL (adjust if needed)
+        SELENIUM_URL = "http://selenium-standalone:4444/wd/hub"
+    }
+
     stages {
         stage('Clone Repository') {
             steps {
@@ -33,9 +39,9 @@ pipeline {
             steps {
                 // Start Selenium Chrome standalone container
                 script {
-                   sh 'docker run -d -p 4444:4444 -p 7900:7900 --shm-size="2g" selenium/standalone-chrome:latest'
-                    // Wait for Selenium to be ready
-                    sleep 10 // Adjust as needed based on your environment
+//                    sh 'docker run -d -p 4444:4444 -p 7900:7900 --shm-size="2g" selenium/standalone-chrome:latest'
+//                     // Wait for Selenium to be ready
+//                     sleep 10 // Adjust as needed based on your environment
 
                     // Run tests against the Selenium container
                     sh '''
@@ -45,8 +51,8 @@ pipeline {
                     --headless
                     '''
 
-                    // Stop the Selenium container after tests
-                    seleniumContainer.stop()
+//                     // Stop the Selenium container after tests
+//                     seleniumContainer.stop()
                 }
             }
         }
@@ -55,7 +61,7 @@ pipeline {
         always {
             // Archiving test reports
             archiveArtifacts artifacts: '**/reports/*.html', allowEmptyArchive: true
-            junit '**/reports/*.xml'
+//             junit '**/reports/*.xml'
         }
     }
 }
