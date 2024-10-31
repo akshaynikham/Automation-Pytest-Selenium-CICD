@@ -46,9 +46,7 @@ pipeline {
                     // Run tests against the Selenium container
                     sh '''
                     . venv/bin/activate
-                    pytest --maxfail=5 --disable-warnings \
-                    --driver "http://localhost:4444/wd/hub" \
-                    --headless
+                    pytest --maxfail=5 --disable-warnings
                     '''
 
 //                     // Stop the Selenium container after tests
